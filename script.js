@@ -58,14 +58,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     ctaButtons.forEach(button => {
         button.addEventListener('click', function() {
-            if (this.textContent.includes('게임')) {
+            if (this.textContent.includes('Games') || this.textContent.includes('Explore')) {
                 const gamesSection = document.querySelector('#games');
                 const offsetTop = gamesSection.offsetTop - 80;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
                 });
-            } else if (this.textContent.includes('회사')) {
+            } else if (this.textContent.includes('About')) {
                 const aboutSection = document.querySelector('#about');
                 const offsetTop = aboutSection.offsetTop - 80;
                 window.scrollTo({
@@ -137,19 +137,19 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 간단한 유효성 검사
             if (!name || !email || !message) {
-                alert('모든 필드를 입력해주세요.');
+                alert('Please fill in all fields.');
                 return;
             }
             
             // 이메일 유효성 검사
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                alert('올바른 이메일 주소를 입력해주세요.');
+                alert('Please enter a valid email address.');
                 return;
             }
             
             // 성공 메시지 (실제 서버 연동 시 이 부분을 수정)
-            alert('메시지가 성공적으로 전송되었습니다! 빠른 시일 내에 연락드리겠습니다.');
+            alert('Message sent successfully! We will get back to you soon.');
             this.reset();
         });
     }
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.open('https://github.com', '_blank');
                     break;
                 case 'Discord':
-                    alert('Discord 서버 준비 중입니다!');
+                    alert('Discord server coming soon!');
                     break;
                 case 'Email':
                     window.location.href = 'mailto:contact@apptiverse.com';
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
     gameCategories.forEach(category => {
         category.addEventListener('click', function() {
             const categoryType = this.querySelector('h3').textContent;
-            alert(`${categoryType} 게임에 대한 더 자세한 정보를 준비 중입니다!`);
+            alert(`More detailed information about ${categoryType} games coming soon!`);
         });
     });
 });
