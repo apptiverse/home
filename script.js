@@ -1,3 +1,10 @@
+// EmailJS 초기화 (사용자가 설정해야 함)
+// EmailJS 서비스를 사용하려면 https://www.emailjs.com/ 에서 계정을 만들고 설정해야 합니다
+(function(){
+    // 여기에 실제 User ID를 입력하세요 (EmailJS 대시보드에서 확인 가능)
+    // emailjs.init("YOUR_USER_ID");
+})();
+
 // 네비게이션 관련
 document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.querySelector('.navbar');
@@ -121,19 +128,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// 폼 처리
+// 폼 처리 - EmailJS를 사용한 실제 이메일 전송
 document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.querySelector('.contact-form form');
+    const contactForm = document.getElementById('contact-form');
+    const sendBtn = document.getElementById('send-btn');
+    const btnText = sendBtn.querySelector('.btn-text');
+    const btnLoading = sendBtn.querySelector('.btn-loading');
     
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             // 폼 데이터 수집
-            const formData = new FormData(this);
-            const name = this.querySelector('input[type="text"]').value;
-            const email = this.querySelector('input[type="email"]').value;
-            const message = this.querySelector('textarea').value;
+            const name = this.querySelector('input[name="from_name"]').value;
+            const email = this.querySelector('input[name="from_email"]').value;
+            const message = this.querySelector('textarea[name="message"]').value;
             
             // 간단한 유효성 검사
             if (!name || !email || !message) {
@@ -148,9 +157,50 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // 성공 메시지 (실제 서버 연동 시 이 부분을 수정)
-            alert('Message sent successfully! We will get back to you soon.');
-            this.reset();
+            // 버튼 상태 변경
+            sendBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            
+            // EmailJS를 사용한 이메일 전송
+            // 주의: 실제 사용하려면 EmailJS 설정이 필요합니다
+            if (typeof emailjs !== 'undefined') {
+                // EmailJS 템플릿 파라미터
+                const templateParams = {
+                    from_name: name,
+                    from_email: email,
+                    message: message,
+                    to_email: 'contact@apptiverse.com' // 받을 이메일 주소
+                };
+                
+                // 실제 서비스 ID와 템플릿 ID를 입력해야 합니다
+                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                    .then(function(response) {
+                        console.log('Email sent successfully!', response.status, response.text);
+                        alert('Message sent successfully! We will get back to you soon.');
+                        contactForm.reset();
+                    })
+                    .catch(function(error) {
+                        console.error('Email sending failed:', error);
+                        alert('Failed to send message. Please try again or contact us directly.');
+                    })
+                    .finally(function() {
+                        // 버튼 상태 복원
+                        sendBtn.disabled = false;
+                        btnText.style.display = 'inline';
+                        btnLoading.style.display = 'none';
+                    });
+            } else {
+                // EmailJS가 설정되지 않은 경우
+                console.log('Form submitted with:', { name, email, message });
+                alert('EmailJS is not configured. This is a demo form. In production, set up EmailJS to receive actual emails.');
+                contactForm.reset();
+                
+                // 버튼 상태 복원
+                sendBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+            }
         });
     }
 });
