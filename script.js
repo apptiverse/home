@@ -166,23 +166,33 @@ document.addEventListener('DOMContentLoaded', function() {
             if (typeof emailjs !== 'undefined') {
                 // EmailJS 템플릿 파라미터
                 const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth() + 1;
+                const day = now.getDate();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                
+                // 간단한 문자열로 날짜/시간 생성
+                const dateString = year + "년 " + month + "월 " + day + "일";
+                const timeString = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes);
+                const fullDateTime = dateString + " " + timeString;
+                
                 const templateParams = {
                     from_name: name,
                     from_email: email,
                     message: message,
                     to_name: 'Apptiverse Team',
                     reply_to: email,
-                    current_date: now.getFullYear() + '년 ' + 
-                                 (now.getMonth() + 1) + '월 ' + 
-                                 now.getDate() + '일',
-                    current_time: now.getHours().toString().padStart(2, '0') + ':' + 
-                                 now.getMinutes().toString().padStart(2, '0'),
-                    full_datetime: now.getFullYear() + '년 ' + 
-                                  (now.getMonth() + 1) + '월 ' + 
-                                  now.getDate() + '일 ' +
-                                  now.getHours().toString().padStart(2, '0') + ':' + 
-                                  now.getMinutes().toString().padStart(2, '0')
+                    current_date: dateString,
+                    current_time: timeString,
+                    full_datetime: fullDateTime,
+                    timestamp: now.getTime().toString(),
+                    simple_date: month + "/" + day + "/" + year,
+                    simple_time: hours + ":" + (minutes < 10 ? "0" + minutes : minutes)
                 };
+                
+                // 디버깅용 로그
+                console.log('Sending email with params:', templateParams);
                 
                 // EmailJS 설정값 - apptiverse 계정
                 const SERVICE_ID = 'service_hyxu8mc';
