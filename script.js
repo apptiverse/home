@@ -165,20 +165,23 @@ document.addEventListener('DOMContentLoaded', function() {
             // EmailJS를 사용한 이메일 전송
             if (typeof emailjs !== 'undefined') {
                 // EmailJS 템플릿 파라미터
+                const now = new Date();
                 const templateParams = {
                     from_name: name,
                     from_email: email,
                     message: message,
                     to_name: 'Apptiverse Team',
                     reply_to: email,
-                    current_date: new Date().toLocaleString('ko-KR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        timeZone: 'Asia/Seoul'
-                    })
+                    current_date: now.getFullYear() + '년 ' + 
+                                 (now.getMonth() + 1) + '월 ' + 
+                                 now.getDate() + '일',
+                    current_time: now.getHours().toString().padStart(2, '0') + ':' + 
+                                 now.getMinutes().toString().padStart(2, '0'),
+                    full_datetime: now.getFullYear() + '년 ' + 
+                                  (now.getMonth() + 1) + '월 ' + 
+                                  now.getDate() + '일 ' +
+                                  now.getHours().toString().padStart(2, '0') + ':' + 
+                                  now.getMinutes().toString().padStart(2, '0')
                 };
                 
                 // EmailJS 설정값 - apptiverse 계정
