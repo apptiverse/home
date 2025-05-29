@@ -1,8 +1,8 @@
-// EmailJS 초기화 (사용자가 설정해야 함)
-// EmailJS 서비스를 사용하려면 https://www.emailjs.com/ 에서 계정을 만들고 설정해야 합니다
+// EmailJS 초기화
+// EmailJS 설정 완료 - apptiverse 계정
 (function(){
-    // 여기에 실제 User ID를 입력하세요 (EmailJS 대시보드에서 확인 가능)
-    // emailjs.init("YOUR_USER_ID");
+    // EmailJS Public Key 설정
+    emailjs.init("0tDyw4eCfPTmfVpcf");
 })();
 
 // 네비게이션 관련
@@ -163,26 +163,29 @@ document.addEventListener('DOMContentLoaded', function() {
             btnLoading.style.display = 'inline';
             
             // EmailJS를 사용한 이메일 전송
-            // 주의: 실제 사용하려면 EmailJS 설정이 필요합니다
             if (typeof emailjs !== 'undefined') {
                 // EmailJS 템플릿 파라미터
                 const templateParams = {
                     from_name: name,
                     from_email: email,
                     message: message,
-                    to_email: 'contact@apptiverse.com' // 받을 이메일 주소
+                    to_name: 'Apptiverse Team',
+                    reply_to: email
                 };
                 
-                // 실제 서비스 ID와 템플릿 ID를 입력해야 합니다
-                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                // EmailJS 설정값 - apptiverse 계정
+                const SERVICE_ID = 'service_hyxu8mc';
+                const TEMPLATE_ID = 'template_b3ujv4d';
+                
+                emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
                     .then(function(response) {
                         console.log('Email sent successfully!', response.status, response.text);
-                        alert('Message sent successfully! We will get back to you soon.');
+                        alert('✅ Message sent successfully! We will get back to you soon.');
                         contactForm.reset();
                     })
                     .catch(function(error) {
                         console.error('Email sending failed:', error);
-                        alert('Failed to send message. Please try again or contact us directly.');
+                        alert('❌ Failed to send message. Please try again or contact us directly at contact@apptiverse.com');
                     })
                     .finally(function() {
                         // 버튼 상태 복원
@@ -191,10 +194,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         btnLoading.style.display = 'none';
                     });
             } else {
-                // EmailJS가 설정되지 않은 경우
+                // EmailJS가 로드되지 않은 경우
                 console.log('Form submitted with:', { name, email, message });
-                alert('EmailJS is not configured. This is a demo form. In production, set up EmailJS to receive actual emails.');
-                contactForm.reset();
+                alert('📧 EmailJS is not properly loaded. Please contact us directly at contact@apptiverse.com\n\nYour message:\nName: ' + name + '\nEmail: ' + email + '\nMessage: ' + message);
                 
                 // 버튼 상태 복원
                 sendBtn.disabled = false;
@@ -262,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             switch(platform) {
                 case 'GitHub':
-                    window.open('https://github.com', '_blank');
+                    window.open('https://github.com/apptiverse', '_blank');
                     break;
                 case 'Discord':
                     alert('Discord server coming soon!');
