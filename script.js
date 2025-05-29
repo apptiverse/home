@@ -170,7 +170,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     from_email: email,
                     message: message,
                     to_name: 'Apptiverse Team',
-                    reply_to: email
+                    reply_to: email,
+                    current_date: new Date().toLocaleString('ko-KR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        timeZone: 'Asia/Seoul'
+                    })
                 };
                 
                 // EmailJS 설정값 - apptiverse 계정
